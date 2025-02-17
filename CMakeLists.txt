@@ -36,7 +36,7 @@ else()
 endif()
 
 # Add executable
-add_executable(Endless_Dungeon_C_Raylib main.c UI.c header.h)
+add_executable(Endless_Dungeon_C_Raylib main.c UI.c header.h ScreenRender.c)
 
 # Include Raylib headers
 target_include_directories(Endless_Dungeon_C_Raylib PRIVATE ${raylib_SOURCE_DIR}/src)

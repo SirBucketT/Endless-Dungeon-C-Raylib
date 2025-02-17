@@ -1,6 +1,10 @@
+# Minimum required version of CMake
 cmake_minimum_required(VERSION 3.16)
+
+# Project name and language
 project(Endless_Dungeon_C_Raylib C)
 
+# Set C standard to C99
 set(CMAKE_C_STANDARD 99)
 
 include(FetchContent)
@@ -32,10 +36,13 @@ else()
 endif()
 
 # Add executable
-add_executable(Endless_Dungeon_C_Raylib main.c)
+add_executable(Endless_Dungeon_C_Raylib main.c UI.c header.h)
 
 # Include Raylib headers
 target_include_directories(Endless_Dungeon_C_Raylib PRIVATE ${raylib_SOURCE_DIR}/src)
 
 # Link Raylib library
 target_link_libraries(Endless_Dungeon_C_Raylib PRIVATE raylib)
+
+# Ensure that custom headers are included in the target
+target_compile_definitions(Endless_Dungeon_C_Raylib PRIVATE SCREEN_WIDTH=1800 SCREEN_HEIGHT=900)

@@ -8,14 +8,22 @@ void ScreenRender(void) {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Endless Dungeon");
     SetTargetFPS(60);
 
+    Texture2D buttonTexture = LoadTexture("UI/buttonBackground.png");
+
+
+    if (buttonTexture.id == 0) {
+        printf("Failed to load texture!\n");
+    }
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        DrawText("Welcome to the Endless Dungeon!", 100, 100, 20, RED);
+        UserInterface(buttonTexture);
 
         EndDrawing();
     }
 
+    UnloadTexture(buttonTexture);
     CloseWindow();
 }

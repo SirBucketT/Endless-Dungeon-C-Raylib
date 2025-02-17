@@ -46,3 +46,8 @@ target_link_libraries(Endless_Dungeon_C_Raylib PRIVATE raylib)
 
 # Ensure that custom headers are included in the target
 target_compile_definitions(Endless_Dungeon_C_Raylib PRIVATE SCREEN_WIDTH=1800 SCREEN_HEIGHT=900)
+
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR})

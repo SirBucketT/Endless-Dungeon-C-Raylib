@@ -7,7 +7,8 @@
 
 typedef enum {
     MENU,
-    GAME
+    GAME,
+    QUIT_GAME,
 } GameState;
 
 //GameState currentState;

@@ -3,6 +3,7 @@
 
 #define SCREEN_WIDTH    1800
 #define SCREEN_HEIGHT   900
+#define CELL_SIZE       15
 #include "raylib.h"
 
 typedef enum {
@@ -16,6 +17,9 @@ typedef struct {
     int health;
     int damage;
     int score;
+    int SizeY;
+    int SizeX;
+    int movementSpeed;
 }PlayerData;
 
 void ScreenRender(void);

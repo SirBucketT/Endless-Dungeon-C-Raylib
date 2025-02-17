@@ -2,11 +2,10 @@
 
 #include "header.h"
 #include "raylib.h"
-
 GameState currentState = MENU;
 
-
 void UserInterface(Texture2D buttonTexture) {
+
     int buttonWidth = 300;
     int buttonHeight = 80;
 

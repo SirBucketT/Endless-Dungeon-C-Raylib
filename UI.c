@@ -46,7 +46,6 @@ void UserInterface(Texture2D buttonTexture) {
         const char *playGameText = "Play Game";
         int fontSize = 40;
         int textWidth = MeasureText(playGameText, fontSize);
-        const char *QuitGameText = "Quit Game";
 
         Vector2 PlayGameTextPos = {
             PlayGameButton.x + (PlayGameButton.width - textWidth) / 2,
@@ -68,6 +67,7 @@ void UserInterface(Texture2D buttonTexture) {
 
     }
     else if (currentState == GAME) {
+        UnloadTexture(buttonTexture);
         GameManager();
     }
     else if (currentState == QUIT_GAME) {

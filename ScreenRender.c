@@ -10,11 +10,6 @@ void ScreenRender(void) {
 
     Texture2D buttonTexture = LoadTexture("UI/buttonBackground.png");
 
-
-    if (buttonTexture.id == 0) {
-        printf("Failed to load texture!\n");
-    }
-
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);

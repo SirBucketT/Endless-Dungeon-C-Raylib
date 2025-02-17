@@ -16,3 +16,7 @@ void ScreenRender(void) {
 
     CloseWindow();
 }
+
+void UserInterface(void) {
+    
+}

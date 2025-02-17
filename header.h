@@ -5,5 +5,6 @@
 #define SCREEN_HEIGHT   900
 
 void ScreenRender(void);
+void UserInterface(void);
 
 #endif //HEADER_H

@@ -20,11 +20,6 @@ void Player(void) {
     player.movementSpeed = 20;
     if (isAlive == true) {
 
-        //player Character rendering
-        player.SizeX = 10;
-        player.SizeY = 10;
-        DrawRectangle(player.position.x, player.position.y, player.SizeX, player.SizeY, WHITE);
-
         //score tester
         if (IsKeyPressed(KEY_K)) {
             player.score+= 10;
@@ -34,9 +29,15 @@ void Player(void) {
         if (IsKeyPressed(KEY_I)) {
             player.health = 0;
         }
+
         //------------------------------------------------------------
-        //      Player movement:
+        //      Player rendering and player movement:
         //------------------------------------------------------------
+
+        player.SizeX = 10;
+        player.SizeY = 10;
+        DrawRectangle(player.position.x, player.position.y, player.SizeX, player.SizeY, WHITE);
+
         if (IsKeyPressed(KEY_D)) {
             player.position.x += player.movementSpeed;
         } else if (IsKeyPressed(KEY_A)) {
@@ -48,6 +49,7 @@ void Player(void) {
         }
 
     }
+
     if (player.health <= 0) {
         isAlive = false;
         player.health = 0;

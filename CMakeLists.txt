@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.16)
 project(Endless_Dungeon_C_Raylib C)
 
 set(CMAKE_C_STANDARD 99)
 
 include(FetchContent)
 
-# Define function to include dependencies via FetchContent
+# Function to include dependencies via FetchContent
 function(include_dependency libName gitURL gitTag)
     FetchContent_Declare(${libName}
             GIT_REPOSITORY ${gitURL}
@@ -17,22 +17,25 @@ function(include_dependency libName gitURL gitTag)
 endfunction()
 
 # Add Raylib dependency
-set(LIB1 raylib)
-find_package(${LIB1} QUIET)
-if (NOT ${LIB1}_FOUND)
-    message(STATUS "Getting ${LIB1} from Github")
-    include_dependency(${LIB1} https://github.com/raysan5/raylib.git 4.5.0)
+find_package(raylib QUIET)
+if (NOT raylib_FOUND)
+    message(STATUS "Getting Raylib from Github")
+
+    # Avoid unnecessary builds
+    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(BUILD_GAMES OFF CACHE BOOL "" FORCE)
+    set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+
+    include_dependency(raylib https://github.com/raysan5/raylib.git 4.5.0)
 else()
-    message(STATUS "Using local ${LIB1}")
+    message(STATUS "Using local Raylib")
 endif()
 
 # Add executable
 add_executable(Endless_Dungeon_C_Raylib main.c)
 
 # Include Raylib headers
-target_include_directories(hello_raylib_with_cmake PRIVATE ${raylib_SOURCE_DIR}/src)
+target_include_directories(Endless_Dungeon_C_Raylib PRIVATE ${raylib_SOURCE_DIR}/src)
 
 # Link Raylib library
-target_link_libraries(hello_raylib_with_cmake PRIVATE raylib)
-
-
+target_link_libraries(Endless_Dungeon_C_Raylib PRIVATE raylib)

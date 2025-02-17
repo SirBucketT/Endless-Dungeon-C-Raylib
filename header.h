@@ -11,8 +11,6 @@ typedef enum {
     QUIT_GAME,
 } GameState;
 
-//GameState currentState;
-
 void ScreenRender(void);
 void UserInterface(Texture2D buttonTexture);
 void GameManager(void);

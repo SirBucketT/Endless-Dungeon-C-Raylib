@@ -68,7 +68,7 @@ void UserInterface(Texture2D buttonTexture) {
 
     }
     else if (currentState == GAME) {
-        DrawText("Game Screen", SCREEN_WIDTH/2 - 100, 100, 40, DARKGRAY);
+        GameManager();
     }
     else if (currentState == QUIT_GAME) {
         CloseWindow();

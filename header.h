@@ -15,5 +15,6 @@ typedef enum {
 
 void ScreenRender(void);
 void UserInterface(Texture2D buttonTexture);
+void GameManager(void);
 
 #endif //HEADER_H

@@ -12,7 +12,7 @@ void GameManager(void){
     char scoreText[500];
     sprintf(scoreText, "Current Score: %d", player.score);
 
-    DrawText(scoreText, 20, 20, 20, WHITE);
+    DrawText(scoreText, 20, 30, 30, WHITE);
     Player();
     GameOverCheck();
 }

@@ -26,5 +26,6 @@ void ScreenRender(void);
 void UserInterface(Texture2D buttonTexture);
 void GameManager(void);
 void Player(void);
+void GameOverCheck(void);
 
 #endif //HEADER_H

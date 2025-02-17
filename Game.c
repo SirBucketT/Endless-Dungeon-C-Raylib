@@ -14,6 +14,7 @@ void GameManager(void){
 
     DrawText(scoreText, 20, 20, 20, WHITE);
     Player();
+    GameOverCheck();
 }
 
 void Player(void) {
@@ -23,11 +24,6 @@ void Player(void) {
         //score tester
         if (IsKeyPressed(KEY_K)) {
             player.score+= 10;
-        }
-
-        //game over test code
-        if (IsKeyPressed(KEY_I)) {
-            player.health = 0;
         }
 
         //------------------------------------------------------------
@@ -49,10 +45,16 @@ void Player(void) {
         }
 
     }
+}
 
+void GameOverCheck(void) {
     if (player.health <= 0) {
         isAlive = false;
         player.health = 0;
         DrawText("Game Over", SCREEN_WIDTH/2 -150, SCREEN_HEIGHT/2, 40, RED);
+    }
+    //game over test code
+    if (IsKeyPressed(KEY_I)) {
+        player.health = 0;
     }
 }

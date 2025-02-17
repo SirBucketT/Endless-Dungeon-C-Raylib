@@ -35,7 +35,7 @@ void UserInterface(Texture2D buttonTexture) {
 
 
     if (currentState == MENU) {
-        DrawText("Main Menu", SCREEN_WIDTH/2 - 100, 100, 40, DARKGRAY);
+        DrawText("Main Menu", SCREEN_WIDTH/2 - 100, 100, 40, WHITE);
 
         //draw play game button
 

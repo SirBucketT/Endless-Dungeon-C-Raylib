@@ -35,7 +35,6 @@ void GameManager(void) {
     sprintf(scoreText, "Current Score: %d", player.score);
     DrawText(scoreText, 20, 30, 30, WHITE);
 
-    // Debug player info
     DrawText(TextFormat("Player Position: %.0f, %.0f", player.position.x, player.position.y),
              20, 60, 20, GREEN);
     DrawText(TextFormat("Player Direction: %d", player.dir),

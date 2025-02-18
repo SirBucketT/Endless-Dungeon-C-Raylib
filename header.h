@@ -4,9 +4,11 @@
 #define SCREEN_WIDTH    1800
 #define SCREEN_HEIGHT   900
 
-#define CELL_SIZE 20
-#define ROWS 30
-#define COLS 50
+#define CELL_SIZE       20
+#define ROWS            30
+#define COLS            50
+
+#define StartHealth     100
 
 #include "raylib.h"
 
@@ -46,7 +48,9 @@ typedef struct {
 void ScreenRender(void);
 void UserInterface(Texture2D buttonTexture);
 void GameManager(void);
-void Player(void);
+void PlayerUpdate(void);
 void GameOverCheck(void);
+bool playerIsAlive(void);
+GameRestarter();
 
 #endif //HEADER_H

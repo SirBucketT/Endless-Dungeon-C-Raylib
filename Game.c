@@ -7,26 +7,33 @@
 
 PlayerData player = {
     .position = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2},
-    .health = 100, .damage = 10, .score = 0,
+    .health = StartHealth, .damage = 10, .score = 0,
     .SizeX = CELL_SIZE,.SizeY = CELL_SIZE, .movementSpeed = CELL_SIZE };
 
 Projectile projectile = {.sizeX = CELL_SIZE /2, .sizeY = CELL_SIZE /2};
 
-bool isAlive = true;
 char grid [ROWS][COLS];
+
+GameRestarter() {
+    player.health = StartHealth;
+    GameManager();
+}
 
 void GameManager(void){
     char scoreText[500];
     sprintf(scoreText, "Current Score: %d", player.score);
-
     DrawText(scoreText, 20, 30, 30, WHITE);
-    
-    Player();
+
+    PlayerUpdate();
     GameOverCheck();
 }
 
-void Player(void) {
-    if (isAlive == true) {
+bool playerIsAlive(void) {
+    return player.health > 0;
+}
+
+void PlayerUpdate(void) {
+    if (playerIsAlive()) {
 
         //score tester
         if (IsKeyPressed(KEY_K)) {
@@ -58,6 +65,13 @@ void Player(void) {
         //------------------------------------------------------------
 
         if (IsKeyPressed(KEY_SPACE)) {
+            /*
+            if (projectileCooldown >= 0.0f) {
+                projectileCooldown = 0.25f;
+                ProjectileSpawn(player.position, startingVelocity);
+            }
+            */
+
             projectile.isActive = true;
             projectile.isHit = false;
 
@@ -87,13 +101,16 @@ void Player(void) {
 }
 
 void GameOverCheck(void) {
-    if (player.health <= 0) {
-        isAlive = false;
-        player.health = 0;
-        DrawText("Game Over", SCREEN_WIDTH/2 -150, SCREEN_HEIGHT/2, 40, RED);
-    }
     //game over test code
     if (IsKeyPressed(KEY_I)) {
         player.health = 0;
+    }
+    if (!playerIsAlive()) {
+        DrawText("Game Over", SCREEN_WIDTH/2 -150, SCREEN_HEIGHT/2, 40, RED);
+
+        DrawText("Press Spacebar to restart", SCREEN_WIDTH/2 -325, SCREEN_HEIGHT/2 + 150, 40, GREEN);
+        if (IsKeyPressed(KEY_SPACE)) {
+            GameRestarter();
+        }
     }
 }

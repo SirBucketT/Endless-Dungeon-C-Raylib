@@ -5,7 +5,11 @@
 #include <stdio.h>
 #include "header.h"
 
-PlayerData player = { .position = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2}, .health = 100, .damage = 10, .score = 0 };
+PlayerData player = {
+    .position = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2},
+    .health = 100, .damage = 10, .score = 0,
+    .SizeX = 10,.SizeY = 10, .movementSpeed = 20 };
+
 bool isAlive = true;
 
 void GameManager(void){
@@ -18,7 +22,6 @@ void GameManager(void){
 }
 
 void Player(void) {
-    player.movementSpeed = 20;
     if (isAlive == true) {
 
         //score tester
@@ -30,8 +33,6 @@ void Player(void) {
         //      Player rendering and player movement:
         //------------------------------------------------------------
 
-        player.SizeX = 10;
-        player.SizeY = 10;
         DrawRectangle(player.position.x, player.position.y, player.SizeX, player.SizeY, WHITE);
 
         if (IsKeyPressed(KEY_D)) {

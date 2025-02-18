@@ -53,6 +53,6 @@ void PlayerUpdate(void);
 void GameOverCheck(void);
 bool playerIsAlive(void);
 void GameRestarter(void);
-void InitProjectiles(void);
+void InitializeProjectiles(void);
 
 #endif // HEADER_H

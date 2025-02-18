@@ -15,7 +15,7 @@ PlayerData player = {
 };
 
 Projectile projectiles[MAX_BULLETS] = {
-    { .isActive = false, .isHit = false }
+    { .isActive = false, .isHit = false, .sizeX = CELL_SIZE/2, .sizeY = CELL_SIZE/2 },
 };
 
 int bulletSpeed = 40;
@@ -23,22 +23,13 @@ int bulletSpeed = 40;
 int activeProjectilesCount = 0;
 char grid[ROWS][COLS];
 
-void InitializeProjectiles(void) {
-    for (int i = 0; i < MAX_BULLETS; ++i) {
-        projectiles[i].isActive = false;
-        projectiles[i].position = (Vector2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-        projectiles[i].sizeX = CELL_SIZE / 2;
-        projectiles[i].sizeY = CELL_SIZE / 2;
-        projectiles[i].velocity = (Vector2){0, 0};
-    }
-    activeProjectilesCount = 0;
-}
+
 
 void GameManager(void) {
     char scoreText[500];
     sprintf(scoreText, "Current Score: %d", player.score);
     DrawText(scoreText, 20, 30, 30, WHITE);
-
+    
     PlayerUpdate();
     GameOverCheck();
 }
@@ -77,7 +68,7 @@ void PlayerUpdate(void) {
 
         // Draw player with direction indicator
         DrawRectangle(player.position.x, player.position.y, player.SizeX, player.SizeY, WHITE);
-        
+
         Color DirectionArrow = RED;
         switch(player.dir) {
             case RIGHT:
@@ -85,7 +76,7 @@ void PlayerUpdate(void) {
                           (Vector2){player.position.x + player.SizeX + 20, player.position.y + player.SizeY/2},
                           3, DirectionArrow);
                 break;
-            case LEFT:
+                    case LEFT:
                 DrawLineEx((Vector2){player.position.x, player.position.y + player.SizeY/2},
                           (Vector2){player.position.x - 20, player.position.y + player.SizeY/2},
                           3, DirectionArrow);
@@ -139,11 +130,6 @@ void PlayerUpdate(void) {
 
                     activeProjectilesCount++;
                     spawned = true;
-
-                    // Visual debug for spawn point
-                    DrawCircle(projectiles[i].position.x, projectiles[i].position.y, 5, RED);
-                    printf("Projectile spawned at: %.2f, %.2f\n",
-                           projectiles[i].position.x, projectiles[i].position.y);
                     break;
                 }
             }
@@ -155,23 +141,18 @@ void PlayerUpdate(void) {
             //-----------------------------------------------------
 
         for (int i = 0; i < MAX_BULLETS; ++i) {
-            if (projectiles[i].isActive) {
-                projectiles[i].position.x += projectiles[i].velocity.x * GetFrameTime();
-                projectiles[i].position.y += projectiles[i].velocity.y * GetFrameTime();
 
-               /* // Draw projectile with debug info
-                DrawRectangle(projectiles[i].position.x - projectiles[i].sizeX/2,
-                            projectiles[i].position.y - projectiles[i].sizeY/2,
-                            projectiles[i].sizeX, projectiles[i].sizeY, YELLOW);
+            if (!projectiles[i].isActive) {
+                continue;
+            }
 
-                DrawText(TextFormat("P%d", i),
-                        projectiles[i].position.x - 10,
-                        projectiles[i].position.y - 20,
-                        20, YELLOW); */
+            projectiles[i].position.x += projectiles[i].velocity.x * GetFrameTime();
+            projectiles[i].position.y += projectiles[i].velocity.y * GetFrameTime();
 
-                DrawRectangle(projectiles[i].position.x - projectiles[i].sizeX / 2,
-                            projectiles[i].position.y - projectiles[i].sizeY / 2,
-                            projectiles[i].sizeX, projectiles[i].sizeY, WHITE);
+                DrawRectangle(projectiles[i].position.x,
+                            projectiles[i].position.y,
+                            projectiles->sizeX, projectiles->sizeY, WHITE);
+
 
                 if (projectiles[i].position.x < -CELL_SIZE ||
                     projectiles[i].position.x > SCREEN_WIDTH + CELL_SIZE ||
@@ -180,7 +161,6 @@ void PlayerUpdate(void) {
                     projectiles[i].isActive = false;
                     activeProjectilesCount--;
                 }
-            }
         }
     }
 }
@@ -203,5 +183,4 @@ void GameRestarter(void) {
     player.score = 0;
     player.position = (Vector2){SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
     player.dir = RIGHT;
-    InitializeProjectiles();
 }

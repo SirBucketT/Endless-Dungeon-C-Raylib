@@ -9,7 +9,7 @@
 #define COLS            (SCREEN_WIDTH / CELL_SIZE)
 
 #define StartHealth     100
-#define MAX_BULLETS     100
+#define MAX_BULLETS     20
 
 #include "raylib.h"
 

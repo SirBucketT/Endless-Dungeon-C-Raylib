@@ -66,7 +66,6 @@ void UserInterface(Texture2D buttonTexture) {
 
     }
     else if (currentState == GAME) {
-        UnloadTexture(buttonTexture);
         GameManager();
     }
     else if (currentState == QUIT_GAME) {

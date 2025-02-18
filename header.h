@@ -5,10 +5,11 @@
 #define SCREEN_HEIGHT   900
 
 #define CELL_SIZE       20
-#define ROWS            30
-#define COLS            50
+#define ROWS            (SCREEN_HEIGHT / CELL_SIZE)
+#define COLS            (SCREEN_WIDTH / CELL_SIZE)
 
 #define StartHealth     100
+#define MAX_BULLETS     100
 
 #include "raylib.h"
 
@@ -23,7 +24,7 @@ typedef enum {
     DOWN,
     RIGHT,
     LEFT
-}direction;
+} direction;
 
 typedef struct {
     Vector2 position;
@@ -34,7 +35,7 @@ typedef struct {
     int SizeX;
     int movementSpeed;
     direction dir;
-}PlayerData;
+} PlayerData;
 
 typedef struct {
     Vector2 position;
@@ -43,7 +44,7 @@ typedef struct {
     int sizeX;
     bool isHit;
     bool isActive;
-}Projectile;
+} Projectile;
 
 void ScreenRender(void);
 void UserInterface(Texture2D buttonTexture);
@@ -51,6 +52,7 @@ void GameManager(void);
 void PlayerUpdate(void);
 void GameOverCheck(void);
 bool playerIsAlive(void);
-GameRestarter();
+void GameRestarter(void);
+void InitProjectiles(void);
 
-#endif //HEADER_H
+#endif // HEADER_H

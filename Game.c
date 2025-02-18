@@ -1,4 +1,3 @@
-
 #include "raylib.h"
 #include <stdio.h>
 #include "header.h"
@@ -28,12 +27,19 @@ void InitProjectiles(void) {
         projectiles[i].velocity = (Vector2){0, 0};
     }
     activeProjectilesCount = 0;
+    printf("Projectiles initialized. MAX_BULLETS: %d\n", MAX_BULLETS);
 }
 
 void GameManager(void) {
     char scoreText[500];
     sprintf(scoreText, "Current Score: %d", player.score);
     DrawText(scoreText, 20, 30, 30, WHITE);
+
+    // Debug player info
+    DrawText(TextFormat("Player Position: %.0f, %.0f", player.position.x, player.position.y),
+             20, 60, 20, GREEN);
+    DrawText(TextFormat("Player Direction: %d", player.dir),
+             20, 90, 20, GREEN);
 
     PlayerUpdate();
     GameOverCheck();
@@ -68,16 +74,38 @@ void PlayerUpdate(void) {
             player.dir = DOWN;
         }
 
-        //might remove later ***
         player.position.x = Clamp(player.position.x, 0, SCREEN_WIDTH - player.SizeX);
         player.position.y = Clamp(player.position.y, 0, SCREEN_HEIGHT - player.SizeY);
 
+        // Draw player with direction indicator
         DrawRectangle(player.position.x, player.position.y, player.SizeX, player.SizeY, WHITE);
 
-        //------------------------------------------------------------
-        //      Player projectile logic:
-        //------------------------------------------------------------
+        // Direction indicator
+        Color dirColor = RED;
+        switch(player.dir) {
+            case RIGHT:
+                DrawLineEx((Vector2){player.position.x + player.SizeX, player.position.y + player.SizeY/2},
+                          (Vector2){player.position.x + player.SizeX + 20, player.position.y + player.SizeY/2},
+                          3, dirColor);
+                break;
+            case LEFT:
+                DrawLineEx((Vector2){player.position.x, player.position.y + player.SizeY/2},
+                          (Vector2){player.position.x - 20, player.position.y + player.SizeY/2},
+                          3, dirColor);
+                break;
+            case UP:
+                DrawLineEx((Vector2){player.position.x + player.SizeX/2, player.position.y},
+                          (Vector2){player.position.x + player.SizeX/2, player.position.y - 20},
+                          3, dirColor);
+                break;
+            case DOWN:
+                DrawLineEx((Vector2){player.position.x + player.SizeX/2, player.position.y + player.SizeY},
+                          (Vector2){player.position.x + player.SizeX/2, player.position.y + player.SizeY + 20},
+                          3, dirColor);
+                break;
+        }
 
+        // Projectile spawning
         if (IsKeyPressed(KEY_SPACE) && activeProjectilesCount < MAX_BULLETS) {
             bool spawned = false;
             for (int i = 0; i < MAX_BULLETS; ++i) {
@@ -91,19 +119,19 @@ void PlayerUpdate(void) {
 
                     switch(player.dir) {
                         case RIGHT:
-                            offset = (Vector2){player.SizeX + 10, 0};
+                            offset = (Vector2){player.SizeX + 10, player.SizeY/2};
                             velocity = (Vector2){CELL_SIZE * 2, 0};
                             break;
                         case LEFT:
-                            offset = (Vector2){-player.SizeX - 10, 0};
+                            offset = (Vector2){-player.SizeX - 10, player.SizeY/2};
                             velocity = (Vector2){-CELL_SIZE * 2, 0};
                             break;
                         case UP:
-                            offset = (Vector2){0, -player.SizeY - 10};
+                            offset = (Vector2){player.SizeX/2, -player.SizeY - 10};
                             velocity = (Vector2){0, -CELL_SIZE * 2};
                             break;
                         case DOWN:
-                            offset = (Vector2){0, player.SizeY + 10};
+                            offset = (Vector2){player.SizeX/2, player.SizeY + 10};
                             velocity = (Vector2){0, CELL_SIZE * 2};
                             break;
                     }
@@ -114,7 +142,11 @@ void PlayerUpdate(void) {
 
                     activeProjectilesCount++;
                     spawned = true;
-                    printf("Projectile spawned! Active count: %d\n", activeProjectilesCount);
+
+                    // Visual debug for spawn point
+                    DrawCircle(projectiles[i].position.x, projectiles[i].position.y, 5, RED);
+                    printf("Projectile spawned at: %.2f, %.2f\n",
+                           projectiles[i].position.x, projectiles[i].position.y);
                     break;
                 }
             }
@@ -124,17 +156,21 @@ void PlayerUpdate(void) {
             }
         }
 
-        //------------------------------------------------------------
-        //      Projectile movement and rendering:
-        //------------------------------------------------------------
-
+        // Projectile update and render
         for (int i = 0; i < MAX_BULLETS; ++i) {
             if (projectiles[i].isActive) {
                 projectiles[i].position.x += projectiles[i].velocity.x * GetFrameTime();
                 projectiles[i].position.y += projectiles[i].velocity.y * GetFrameTime();
 
-                DrawRectangle(projectiles[i].position.x, projectiles[i].position.y, 
+                // Draw projectile with debug info
+                DrawRectangle(projectiles[i].position.x - projectiles[i].sizeX/2,
+                            projectiles[i].position.y - projectiles[i].sizeY/2,
                             projectiles[i].sizeX, projectiles[i].sizeY, YELLOW);
+
+                DrawText(TextFormat("P%d", i),
+                        projectiles[i].position.x - 10,
+                        projectiles[i].position.y - 20,
+                        20, YELLOW);
 
                 if (projectiles[i].position.x < -CELL_SIZE ||
                     projectiles[i].position.x > SCREEN_WIDTH + CELL_SIZE ||
@@ -142,7 +178,7 @@ void PlayerUpdate(void) {
                     projectiles[i].position.y > SCREEN_HEIGHT + CELL_SIZE) {
                     projectiles[i].isActive = false;
                     activeProjectilesCount--;
-                    printf("Projectile destroyed. Active count: %d\n", activeProjectilesCount);
+                    printf("Projectile %d destroyed. Active count: %d\n", i, activeProjectilesCount);
                 }
             }
         }

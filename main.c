@@ -49,7 +49,7 @@ int stack[WIDTH * HEIGHT];
 int stackSize = 0;
 bool mazeGenerationComplete = false;
 
-void stepMazeGeneration() {
+void MazeGeneration() {
     //if maze is generrated return
     if(stackSize == 0) {
         mazeGenerationComplete = true;
@@ -140,7 +140,7 @@ int main(void) {
 
     while(!WindowShouldClose()) {
         if(!mazeGenerationComplete) {
-            stepMazeGeneration();
+            MazeGeneration();
         }
         if(IsKeyPressed(KEY_SPACE)) {
             initializeGrid();

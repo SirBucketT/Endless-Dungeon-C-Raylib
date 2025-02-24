@@ -12,26 +12,27 @@ int main(void) {
 #include <time.h>
 #include "header.h"
 
-#define WIDTH 50
-#define HEIGHT 30
-#define CELL_SIZE 25
+#define WIDTH 60
+#define HEIGHT 40
+#define CELL_SIZE 20
+
 
 typedef struct {
     int x, y;
     int visited;
-    int walls[4];       // Walls around the cell: index 0=top, 1=right, 2=bottom, 3=left (1 = wall exists)
+    int walls[4];
 } Cell;
 
 Cell grid[WIDTH * HEIGHT];
 
-// Convert 2D grid coordinates into a 1D array index
+
 int getIndex(int x, int y) {
     if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
-        return -1;      // Return -1 if the coordinates are out of bounds
+        return -1;
     return x + y * WIDTH;
 }
 
-// Remove the wall between two adjacent cells
+// Removes the wall between two adjacent cells a and b.
 void removeWall(Cell *a, Cell *b) {
     int dx = b->x - a->x;
     int dy = b->y - a->y;
@@ -50,127 +51,135 @@ void removeWall(Cell *a, Cell *b) {
     }
 }
 
-//-------------------------------------------------------------------------------
-// Recursive backtracking function to generate the maze.
-// Instead of computing neighbors only once, we recalc them each time so that
-// we never try to process an already visited cell.
-//-------------------------------------------------------------------------------
-void generateMaze(int currentIndex) {
-    grid[currentIndex].visited = 1;   // Mark the current cell as visited
+int stack[WIDTH * HEIGHT];
+int stackSize = 0;
+bool mazeGenerationComplete = false;
 
-    // Repeat until there are no unvisited neighbors left for this cell.
-    while (1) {
-        int neighbors[4];  // Array to hold indices of valid unvisited neighbors
-        int neighborCount = 0;
+// This function performs one step of the iterative DFS maze generation.
+// It uses the stack to keep track of the current path.
+void stepMazeGeneration() {
+    // If the stack is empty, the maze is complete.
+    if(stackSize == 0) {
+        mazeGenerationComplete = true;
+        return;
+    }
 
-        int x = grid[currentIndex].x;
-        int y = grid[currentIndex].y;
+    // Look at the current cell (top of the stack)
+    int currentIndex = stack[stackSize - 1];
+    int x = grid[currentIndex].x;
+    int y = grid[currentIndex].y;
 
-        // Check the neighbor above (up)
-        int neighborIndex = getIndex(x, y - 1);
-        if(neighborIndex != -1 && !grid[neighborIndex].visited) {
-            neighbors[neighborCount++] = neighborIndex;
-        }
-        // Check the neighbor to the right
-        neighborIndex = getIndex(x + 1, y);
-        if(neighborIndex != -1 && !grid[neighborIndex].visited) {
-            neighbors[neighborCount++] = neighborIndex;
-        }
-        // Check the neighbor below (down)
-        neighborIndex = getIndex(x, y + 1);
-        if(neighborIndex != -1 && !grid[neighborIndex].visited) {
-            neighbors[neighborCount++] = neighborIndex;
-        }
-        // Check the neighbor to the left
-        neighborIndex = getIndex(x - 1, y);
-        if(neighborIndex != -1 && !grid[neighborIndex].visited) {
-            neighbors[neighborCount++] = neighborIndex;
-        }
+    int neighbors[4];
+    int neighborCount = 0;
 
-        // If there are no unvisited neighbors, break out of the loop
-        if(neighborCount == 0) {
-            break;
-        }
+    // Check the cell above
+    int neighborIndex = getIndex(x, y - 1);
+    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+        neighbors[neighborCount++] = neighborIndex;
 
-        // Choose a random neighbor from the list of available ones
+    // Check the cell to the right
+    neighborIndex = getIndex(x + 1, y);
+    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+        neighbors[neighborCount++] = neighborIndex;
+
+    // Check the cell below
+    neighborIndex = getIndex(x, y + 1);
+    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+        neighbors[neighborCount++] = neighborIndex;
+
+    // Check the cell to the left
+    neighborIndex = getIndex(x - 1, y);
+    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+        neighbors[neighborCount++] = neighborIndex;
+
+    if(neighborCount > 0) {
+        // If there are unvisited neighbors, pick one randomly.
         int randIndex = rand() % neighborCount;
         int chosenNeighbor = neighbors[randIndex];
 
-        // Remove the wall between the current cell and the chosen neighbor
+        // Remove the wall between the current cell and the chosen neighbor.
         removeWall(&grid[currentIndex], &grid[chosenNeighbor]);
 
-        // Recursively generate the maze from the chosen neighbor
-        generateMaze(chosenNeighbor);
+        // Mark the chosen neighbor as visited.
+        grid[chosenNeighbor].visited = 1;
+
+        // Push the chosen neighbor onto the stack.
+        stack[stackSize++] = chosenNeighbor;
+    } else {
+        // If there are no unvisited neighbors, backtrack by popping the stack.
+        stackSize--;
     }
 }
 
-// Initialize the maze grid: set cell coordinates, mark as unvisited, and add walls
 void initializeGrid() {
     for(int y = 0; y < HEIGHT; y++) {
         for(int x = 0; x < WIDTH; x++) {
-            int idx = getIndex(x, y);  // Convert 2D coordinates to a 1D index
-            grid[idx].x = x;
-            grid[idx].y = y;
-            grid[idx].visited = 0;
-            // Initially, every cell has all four walls
-            grid[idx].walls[0] = 1;  // Top wall
-            grid[idx].walls[1] = 1;  // Right wall
-            grid[idx].walls[2] = 1;  // Bottom wall
-            grid[idx].walls[3] = 1;  // Left wall
+            int gridIndexer = getIndex(x, y);
+            grid[gridIndexer].x = x;
+            grid[gridIndexer].y = y;
+            grid[gridIndexer].visited = 0;
+            grid[gridIndexer].walls[0] = 1;
+            grid[gridIndexer].walls[1] = 1;
+            grid[gridIndexer].walls[2] = 1;
+            grid[gridIndexer].walls[3] = 1;
         }
     }
+    stackSize = 0;
+    grid[0].visited = 1;
+    stack[stackSize++] = 0;
+    mazeGenerationComplete = false;
 }
 
 int main(void) {
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Maze Generation McThingy");
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Endless dungeon using recursive and origin shift");
-    SetTargetFPS(60);   // Run the game loop at 60 FPS
+    srand(time(NULL));
 
-    srand(time(NULL));  // Seed the random number generator
+    initializeGrid();
 
-    initializeGrid();   // Initialize the grid with cells and walls
-    generateMaze(0);    // Generate the maze starting from cell at index 0 (top-left)
-
-    // Calculate the pixel dimensions of the maze and compute an origin shift
     int mazeWidthPixels = WIDTH * CELL_SIZE;
     int mazeHeightPixels = HEIGHT * CELL_SIZE;
     int originX = (SCREEN_WIDTH - mazeWidthPixels) / 2;
     int originY = (SCREEN_HEIGHT - mazeHeightPixels) / 2;
 
-    while (!WindowShouldClose()) {
-        // Regenerate the maze when the spacebar is pressed
-        if (IsKeyPressed(KEY_SPACE)) {
+    while(!WindowShouldClose()) {
+        if(!mazeGenerationComplete) {
+            stepMazeGeneration();
+        }
+        if(IsKeyPressed(KEY_SPACE)) {
             initializeGrid();
-            generateMaze(0);
         }
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // Draw the maze: apply the origin shift to each cell's drawing position
-        for (int i = 0; i < WIDTH * HEIGHT; i++) {
+        for(int i = 0; i < WIDTH * HEIGHT; i++) {
             int cellX = grid[i].x * CELL_SIZE + originX;
             int cellY = grid[i].y * CELL_SIZE + originY;
 
-            // Draw the top wall if it exists
-            if (grid[i].walls[0])
+            if(grid[i].walls[0])
                 DrawLine(cellX, cellY, cellX + CELL_SIZE, cellY, BLACK);
-            // Draw the right wall if it exists
-            if (grid[i].walls[1])
+            if(grid[i].walls[1])
                 DrawLine(cellX + CELL_SIZE, cellY, cellX + CELL_SIZE, cellY + CELL_SIZE, BLACK);
-            // Draw the bottom wall if it exists
-            if (grid[i].walls[2])
+            if(grid[i].walls[2])
                 DrawLine(cellX + CELL_SIZE, cellY + CELL_SIZE, cellX, cellY + CELL_SIZE, BLACK);
-            // Draw the left wall if it exists
-            if (grid[i].walls[3])
+            if(grid[i].walls[3])
                 DrawLine(cellX, cellY + CELL_SIZE, cellX, cellY, BLACK);
         }
 
-        //starting point in maze
-        DrawRectangle(grid[0].x * CELL_SIZE + originX + 2, grid[0].y * CELL_SIZE + originY + 2,
-                      CELL_SIZE - 4, CELL_SIZE - 4, GREEN);
+        if(stackSize > 0) {
+            int currentIndex = stack[stackSize - 1];
+            int currentX = grid[currentIndex].x * CELL_SIZE + originX;
+            int currentY = grid[currentIndex].y * CELL_SIZE + originY;
+            DrawRectangle(currentX + 2, currentY + 2, CELL_SIZE - 4, CELL_SIZE - 4, YELLOW);
+        }
 
-        //exit point in maze
+
+        // start color set to green
+        DrawRectangle(grid[0].x * CELL_SIZE + originX + 2,
+                      grid[0].y * CELL_SIZE + originY + 2,
+                      CELL_SIZE - 4, CELL_SIZE - 4, GREEN);
+        //end color of maze set to red.
         DrawRectangle(grid[WIDTH * HEIGHT - 1].x * CELL_SIZE + originX + 2,
                       grid[WIDTH * HEIGHT - 1].y * CELL_SIZE + originY + 2,
                       CELL_SIZE - 4, CELL_SIZE - 4, RED);

@@ -4,6 +4,10 @@
 #define SCREEN_WIDTH    1800
 #define SCREEN_HEIGHT   900
 
+#define WIDTH           89
+#define HEIGHT          40
+#define CELL_SIZE       20
+
 #define CELL_SIZE       20
 #define ROWS            (SCREEN_HEIGHT / CELL_SIZE)
 #define COLS            (SCREEN_WIDTH / CELL_SIZE)

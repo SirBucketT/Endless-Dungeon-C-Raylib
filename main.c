@@ -12,10 +12,6 @@ int main(void) {
 #include <time.h>
 #include "header.h"
 
-#define WIDTH 70
-#define HEIGHT 40
-#define CELL_SIZE 20
-
 
 typedef struct {
     int x, y;
@@ -153,20 +149,20 @@ int main(void) {
         }
 
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
         for(int i = 0; i < WIDTH * HEIGHT; i++) {
             int cellX = grid[i].x * CELL_SIZE + originX;
             int cellY = grid[i].y * CELL_SIZE + originY;
 
             if(grid[i].walls[0])
-                DrawLine(cellX, cellY, cellX + CELL_SIZE, cellY, BLACK);
+                DrawLine(cellX, cellY, cellX + CELL_SIZE, cellY, RAYWHITE);
             if(grid[i].walls[1])
-                DrawLine(cellX + CELL_SIZE, cellY, cellX + CELL_SIZE, cellY + CELL_SIZE, BLACK);
+                DrawLine(cellX + CELL_SIZE, cellY, cellX + CELL_SIZE, cellY + CELL_SIZE, RAYWHITE);
             if(grid[i].walls[2])
-                DrawLine(cellX + CELL_SIZE, cellY + CELL_SIZE, cellX, cellY + CELL_SIZE, BLACK);
+                DrawLine(cellX + CELL_SIZE, cellY + CELL_SIZE, cellX, cellY + CELL_SIZE, RAYWHITE);
             if(grid[i].walls[3])
-                DrawLine(cellX, cellY + CELL_SIZE, cellX, cellY, BLACK);
+                DrawLine(cellX, cellY + CELL_SIZE, cellX, cellY, RAYWHITE);
         }
 
         //code that shows an indication of where the maze has been drawn. Might not show up in unlocked frame rate.

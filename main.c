@@ -12,7 +12,6 @@ int main(void) {
 #include <time.h>
 #include "header.h"
 
-
 typedef struct {
     int x, y;
     int visited;
@@ -20,7 +19,6 @@ typedef struct {
 } Cell;
 
 Cell grid[WIDTH * HEIGHT];
-
 
 int getIndex(int x, int y) {
     if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
@@ -172,7 +170,6 @@ int main(void) {
             int currentY = grid[currentIndex].y * CELL_SIZE + originY;
             DrawRectangle(currentX + 2, currentY + 2, CELL_SIZE - 4, CELL_SIZE - 4, YELLOW);
         }
-
 
         // start color set to green
         DrawRectangle(grid[0].x * CELL_SIZE + originX + 2,

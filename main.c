@@ -12,7 +12,7 @@ int main(void) {
 #include <time.h>
 #include "header.h"
 
-#define WIDTH 60
+#define WIDTH 70
 #define HEIGHT 40
 #define CELL_SIZE 20
 
@@ -55,16 +55,14 @@ int stack[WIDTH * HEIGHT];
 int stackSize = 0;
 bool mazeGenerationComplete = false;
 
-// This function performs one step of the iterative DFS maze generation.
-// It uses the stack to keep track of the current path.
 void stepMazeGeneration() {
-    // If the stack is empty, the maze is complete.
+    //if maze is generrated return
     if(stackSize == 0) {
         mazeGenerationComplete = true;
         return;
     }
 
-    // Look at the current cell (top of the stack)
+    // Look at the current cell
     int currentIndex = stack[stackSize - 1];
     int x = grid[currentIndex].x;
     int y = grid[currentIndex].y;
@@ -74,23 +72,27 @@ void stepMazeGeneration() {
 
     // Check the cell above
     int neighborIndex = getIndex(x, y - 1);
-    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+    if(neighborIndex != -1 && !grid[neighborIndex].visited) {
         neighbors[neighborCount++] = neighborIndex;
+    }
 
     // Check the cell to the right
     neighborIndex = getIndex(x + 1, y);
-    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+    if(neighborIndex != -1 && !grid[neighborIndex].visited) {
         neighbors[neighborCount++] = neighborIndex;
+    }
 
     // Check the cell below
     neighborIndex = getIndex(x, y + 1);
-    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+    if(neighborIndex != -1 && !grid[neighborIndex].visited) {
         neighbors[neighborCount++] = neighborIndex;
+    }
 
     // Check the cell to the left
     neighborIndex = getIndex(x - 1, y);
-    if(neighborIndex != -1 && !grid[neighborIndex].visited)
+    if(neighborIndex != -1 && !grid[neighborIndex].visited) {
         neighbors[neighborCount++] = neighborIndex;
+    }
 
     if(neighborCount > 0) {
         // If there are unvisited neighbors, pick one randomly.
@@ -167,6 +169,7 @@ int main(void) {
                 DrawLine(cellX, cellY + CELL_SIZE, cellX, cellY, BLACK);
         }
 
+        //code that shows an indication of where the maze has been drawn. Might not show up in unlocked frame rate.
         if(stackSize > 0) {
             int currentIndex = stack[stackSize - 1];
             int currentX = grid[currentIndex].x * CELL_SIZE + originX;

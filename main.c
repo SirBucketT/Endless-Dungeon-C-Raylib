@@ -163,7 +163,7 @@ int main(void) {
                 DrawLine(cellX, cellY + CELL_SIZE, cellX, cellY, RAYWHITE);
         }
 
-        //code that shows an indication of where the maze has been drawn. Might not show up in unlocked frame rate.
+        //code that shows an indication of where the maze is being drawn
         if(stackSize > 0) {
             int currentIndex = stack[stackSize - 1];
             int currentX = grid[currentIndex].x * CELL_SIZE + originX;

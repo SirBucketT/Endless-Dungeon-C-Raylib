@@ -110,14 +110,14 @@ void MazeGeneration() {
 void initializeGrid() {
     for(int y = 0; y < HEIGHT; y++) {
         for(int x = 0; x < WIDTH; x++) {
-            int gridIndexer = getIndex(x, y);
-            grid[gridIndexer].x = x;
-            grid[gridIndexer].y = y;
-            grid[gridIndexer].visited = 0;
-            grid[gridIndexer].walls[0] = 1;
-            grid[gridIndexer].walls[1] = 1;
-            grid[gridIndexer].walls[2] = 1;
-            grid[gridIndexer].walls[3] = 1;
+            int grids = getIndex(x, y);
+            grid[grids].x = x;
+            grid[grids].y = y;
+            grid[grids].visited = 0;
+            grid[grids].walls[0] = 1;
+            grid[grids].walls[1] = 1;
+            grid[grids].walls[2] = 1;
+            grid[grids].walls[3] = 1;
         }
     }
     stackSize = 0;

@@ -49,11 +49,10 @@ int stack[WIDTH * HEIGHT];
 int stackSize = 0;
 bool mazeGenerationComplete = false;
 
-void MazeGeneration() {
-    //if maze is generrated return
+bool MazeGeneration() {
+    //if maze is generated return
     if(stackSize == 0) {
-        mazeGenerationComplete = true;
-        return;
+        return true;
     }
 
     // Look at the current cell
@@ -105,6 +104,8 @@ void MazeGeneration() {
         // If there are no unvisited neighbors, backtrack by popping the stack.
         stackSize--;
     }
+
+    return false;
 }
 
 void initializeGrid() {
@@ -140,7 +141,9 @@ int main(void) {
 
     while(!WindowShouldClose()) {
         if(!mazeGenerationComplete) {
-            MazeGeneration();
+            if (MazeGeneration()) {
+                mazeGenerationComplete = true;
+            }
         }
         if(IsKeyPressed(KEY_SPACE)) {
             initializeGrid();

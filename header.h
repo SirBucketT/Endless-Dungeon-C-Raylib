@@ -15,6 +15,14 @@
 #define StartHealth     100
 #define MAX_BULLETS     20
 
+typedef struct {
+    int x, y;
+    int visited;
+    int walls[4];
+} Cell;
+
+Cell grid[WIDTH * HEIGHT];
+
 #include "raylib.h"
 
 typedef enum {

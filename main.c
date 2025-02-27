@@ -12,14 +12,6 @@ int main(void) {
 #include <time.h>
 #include "header.h"
 
-typedef struct {
-    int x, y;
-    int visited;
-    int walls[4];
-} Cell;
-
-Cell grid[WIDTH * HEIGHT];
-
 int getIndex(int x, int y) {
     if(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
         return -1;

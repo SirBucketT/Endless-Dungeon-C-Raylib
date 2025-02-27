@@ -19,12 +19,7 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated>
-      <config projectName="Endless_Dungeon_C_Raylib" targetName="raylib" />
-      <config projectName="Endless_Dungeon_C_Raylib" targetName="Endless_Dungeon_C_Raylib" />
-      <config projectName="Endless_Dungeon_C_Raylib" targetName="glfw" />
-      <config projectName="Endless_Dungeon_C_Raylib" targetName="update_mappings" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -32,10 +27,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcdb37ba-3b68-4455-a12e-8ef1fbe6954d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/header.h" beforeDir="false" afterPath="$PROJECT_DIR$/header.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-    </list>
+    <list default="true" id="bcdb37ba-3b68-4455-a12e-8ef1fbe6954d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +42,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Game.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/header.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/header.h" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -96,33 +88,12 @@
       <recent name="C:\Projects\Endless-Dungeon-C-Raylib" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.Endless_Dungeon_C_Raylib">
-    <configuration name="Endless_Dungeon_C_Raylib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Endless_Dungeon_C_Raylib" TARGET_NAME="Endless_Dungeon_C_Raylib" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Endless_Dungeon_C_Raylib" RUN_TARGET_NAME="Endless_Dungeon_C_Raylib">
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Endless_Dungeon_C_Raylib" TARGET_NAME="glfw" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="raylib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Endless_Dungeon_C_Raylib" TARGET_NAME="raylib" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="update_mappings" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Endless_Dungeon_C_Raylib" TARGET_NAME="update_mappings" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="CMake Application.Endless_Dungeon_C_Raylib" />
-      <item itemvalue="CMake Application.raylib" />
-      <item itemvalue="CMake Application.glfw" />
-      <item itemvalue="CMake Application.update_mappings" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -138,7 +109,7 @@
       <workItem from="1740397396820" duration="11753000" />
       <workItem from="1740487002556" duration="3496000" />
       <workItem from="1740571350979" duration="5631000" />
-      <workItem from="1740664858678" duration="384000" />
+      <workItem from="1740664858678" duration="432000" />
     </task>
     <servers />
   </component>
